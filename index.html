@@ -1,66 +1,654 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Бросаю курить</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { 
+      margin: 0; 
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(to bottom, #f0fdf4, #d1fae5);
+    }
+    .message-enter {
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .card-hover {
+      transition: transform 0.2s;
+    }
+    .card-hover:active {
+      transform: scale(0.98);
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ru"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Clear Stones&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://telegram.org/js/telegram-web-app.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: -apple-system, BlinkMacSystemFont, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #0e1621;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 { font-size: 24px; margin-bottom: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 12px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.primary { background: #2ea6ff; color: #000; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.secondary { background: #1f2a36; color: #fff; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Clear Stones&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;Анонимная чат-рулетка&lt;br&gt;для тех, кто старается не курить&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="primary" onclick="send('find')"&gt;Найти пару&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="secondary" onclick="send('sos')"&gt;SOS&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;button class="secondary" onclick="send('donate')"&gt;Поддержать&lt;/button&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const tg = window.Telegram.WebApp;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>tg.expand();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function send(action) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>tg.sendData(action);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <div id="root"></div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    const BACKEND_URL = 'https://gristly-unshirred-kimberley.ngrok-free.dev'; // ⚠️ ЗАМЕНИТЕ на ваш ngrok URL!
+    
+    let socket = null;
+    let currentView = 'home';
+    let messages = [];
+    let partner = null;
+    let inputValue = '';
+    let isTyping = false;
+    
+    // Настройки пользователя
+    let userProfile = {
+      daysWithoutSmoking: 0,
+      cigarettesPerDay: 20,
+      pricePerPack: 200, // рублей
+      quitDate: new Date()
+    };
+
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor('#10b981');
+      tg.setBackgroundColor('#f0fdf4');
+    }
+
+    const user = tg?.initDataUnsafe?.user || {
+      id: Date.now(),
+      first_name: 'Тестовый пользователь'
+    };
+
+    // Загрузка профиля из localStorage
+    function loadProfile() {
+      const saved = localStorage.getItem(`profile_${user.id}`);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        userProfile = {
+          ...parsed,
+          quitDate: new Date(parsed.quitDate)
+        };
+        
+        // Пересчитываем дни
+        const daysPassed = Math.floor((new Date() - userProfile.quitDate) / (1000 * 60 * 60 * 24));
+        userProfile.daysWithoutSmoking = Math.max(0, daysPassed);
+      }
+    }
+
+    function saveProfile() {
+      localStorage.setItem(`profile_${user.id}`, JSON.stringify(userProfile));
+    }
+
+    // Расчёты
+    function calculateSavings() {
+      const days = userProfile.daysWithoutSmoking;
+      const cigarettesNotSmoked = days * userProfile.cigarettesPerDay;
+      const packsNotSmoked = cigarettesNotSmoked / 20;
+      const moneySaved = Math.floor(packsNotSmoked * userProfile.pricePerPack);
+      
+      return {
+        days,
+        cigarettesNotSmoked,
+        moneySaved,
+        hoursOfLife: Math.floor(cigarettesNotSmoked * 11 / 60), // 11 минут жизни за сигарету
+        healthImprovement: getHealthStatus(days)
+      };
+    }
+
+    function getHealthStatus(days) {
+      if (days < 1) return { status: 'Начало пути', description: 'Через 20 минут пульс нормализуется' };
+      if (days < 2) return { status: 'Первый день', description: 'Никотин выводится из организма' };
+      if (days < 7) return { status: 'Первая неделя', description: 'Вкус и обоняние восстанавливаются' };
+      if (days < 30) return { status: 'Первый месяц', description: 'Улучшается работа лёгких' };
+      if (days < 90) return { status: '2-3 месяца', description: 'Кровообращение улучшается' };
+      if (days < 365) return { status: 'До года', description: 'Риск болезней сердца снижается вдвое' };
+      return { status: 'Больше года', description: 'Вы молодец! Продолжайте в том же духе!' };
+    }
+
+    function getTips(days) {
+      const allTips = [
+        { day: 0, tip: '💧 Пейте больше воды — это помогает выводить токсины и справляться с тягой' },
+        { day: 1, tip: '🍎 Держите под рукой полезные перекусы: орехи, фрукты, жвачку' },
+        { day: 2, tip: '🚶 Прогуляйтесь, когда хочется курить — движение отвлекает' },
+        { day: 3, tip: '😮‍💨 Дыхательные упражнения: глубокий вдох на 4 счёта, выдох на 6' },
+        { day: 5, tip: '🎯 Вспомните, ЗАЧЕМ вы бросили курить. Запишите свои причины' },
+        { day: 7, tip: '🎉 Неделя без курения! Наградите себя чем-то приятным' },
+        { day: 10, tip: '☕️ Избегайте триггеров: кофе, алкоголь, курящих друзей' },
+        { day: 14, tip: '💪 Начните заниматься спортом — это снижает тягу к курению' },
+        { day: 21, tip: '🧠 Привычка формируется 21 день. Вы на правильном пути!' },
+        { day: 30, tip: '🏆 Месяц без сигарет! Вы невероятны!' }
+      ];
+
+      const relevantTips = allTips.filter(t => days >= t.day).slice(-3);
+      return relevantTips.length > 0 ? relevantTips : allTips.slice(0, 3);
+    }
+
+    loadProfile();
+
+    // Подключение к WebSocket
+    function connectWebSocket() {
+      if (socket) return;
+
+      socket = io(BACKEND_URL, {
+        transports: ['websocket', 'polling']
+      });
+
+      socket.on('connect', () => {
+        console.log('✅ WebSocket подключен');
+        socket.emit('register', {
+          telegram_id: user.id,
+          name: user.first_name,
+          days_without_smoking: userProfile.daysWithoutSmoking
+        });
+      });
+
+      socket.on('searching', () => {
+        console.log('⏳ Ожидание партнера...');
+      });
+
+      socket.on('partner_found', (data) => {
+        console.log('✨ Партнер найден:', data.partner);
+        partner = data.partner;
+        messages = [{
+          type: 'system',
+          text: `Вы подключены. ${data.partner.name} не курит ${data.partner.days_without_smoking} дней`
+        }];
+        
+        if (tg) {
+          tg.MainButton.setText('Завершить чат');
+          tg.MainButton.show();
+          tg.MainButton.onClick(() => endChat());
+          tg.HapticFeedback?.notificationOccurred('success');
+        }
+        
+        currentView = 'chat';
+        render();
+      });
+
+      socket.on('receive_message', (message) => {
+        messages.push({
+          type: 'partner',
+          text: message.text,
+          time: message.time
+        });
+        isTyping = false;
+        render();
+        scrollToBottom();
+        
+        if (tg) {
+          tg.HapticFeedback?.impactOccurred('light');
+        }
+      });
+
+      socket.on('partner_typing', () => {
+        isTyping = true;
+        render();
+        setTimeout(() => {
+          isTyping = false;
+          render();
+        }, 3000);
+      });
+
+      socket.on('partner_left', () => {
+        messages.push({
+          type: 'system',
+          text: 'Собеседник покинул чат'
+        });
+        render();
+        
+        setTimeout(() => {
+          currentView = 'home';
+          messages = [];
+          partner = null;
+          setupMainButton();
+          render();
+        }, 2000);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('❌ WebSocket отключен');
+      });
+    }
+
+    // Настройка главной кнопки
+    function setupMainButton() {
+      if (!tg) return;
+      
+      tg.MainButton.setText('💬 Найти собеседника');
+      tg.MainButton.show();
+      tg.MainButton.onClick(() => findPartner());
+    }
+
+    function setupBackButton() {
+      if (!tg) return;
+      
+      tg.BackButton.show();
+      tg.BackButton.onClick(() => {
+        currentView = 'home';
+        setupMainButton();
+        render();
+      });
+    }
+
+    // Регистрация пользователя
+    async function registerUser() {
+      try {
+        await fetch(`${BACKEND_URL}/api/user/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            telegram_id: user.id,
+            name: user.first_name,
+            days_without_smoking: userProfile.daysWithoutSmoking,
+            motivation: 'Хочу быть здоровым'
+          })
+        });
+      } catch (error) {
+        console.error('Ошибка регистрации:', error);
+      }
+    }
+
+    // Поиск партнера
+    async function findPartner() {
+      if (!socket) {
+        connectWebSocket();
+      }
+
+      if (tg) {
+        tg.MainButton.hide();
+        setupBackButton();
+        tg.HapticFeedback?.impactOccurred('medium');
+      }
+
+      await registerUser();
+      
+      currentView = 'searching';
+      render();
+
+      socket.emit('find_partner');
+    }
+
+    // Отправка сообщения
+    function sendMessage() {
+      const text = inputValue.trim();
+      if (!text || !socket) return;
+
+      const message = {
+        text: text,
+        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      messages.push({
+        type: 'user',
+        ...message
+      });
+
+      socket.emit('send_message', message);
+      inputValue = '';
+      render();
+      scrollToBottom();
+
+      if (tg) {
+        tg.HapticFeedback?.impactOccurred('light');
+      }
+    }
+
+    // Завершение чата
+    function endChat() {
+      if (socket) {
+        socket.emit('end_chat');
+      }
+      
+      currentView = 'home';
+      messages = [];
+      partner = null;
+      
+      if (tg) {
+        tg.BackButton.hide();
+      }
+      
+      setupMainButton();
+      render();
+    }
+
+    // Настройки
+    function showSettings() {
+      currentView = 'settings';
+      if (tg) {
+        tg.MainButton.hide();
+        setupBackButton();
+      }
+      render();
+    }
+
+    function saveSettings(days, cigarettes, price) {
+      userProfile.daysWithoutSmoking = parseInt(days) || 0;
+      userProfile.cigarettesPerDay = parseInt(cigarettes) || 20;
+      userProfile.pricePerPack = parseInt(price) || 200;
+      userProfile.quitDate = new Date(Date.now() - userProfile.daysWithoutSmoking * 24 * 60 * 60 * 1000);
+      
+      saveProfile();
+      currentView = 'home';
+      
+      if (tg) {
+        tg.BackButton.hide();
+      }
+      
+      setupMainButton();
+      render();
+    }
+
+    // Прокрутка вниз
+    function scrollToBottom() {
+      setTimeout(() => {
+        const container = document.getElementById('messages-container');
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      }, 100);
+    }
+
+    // Рендеринг
+    function render() {
+      const root = document.getElementById('root');
+      
+      if (currentView === 'home') {
+        const stats = calculateSavings();
+        const tips = getTips(stats.days);
+
+        root.innerHTML = `
+          <div class="min-h-screen p-4 pb-24">
+            <!-- Заголовок -->
+            <div class="text-center mb-6 pt-4">
+              <div class="text-5xl mb-3">🚭</div>
+              <h1 class="text-2xl font-bold text-gray-800">Привет, ${user.first_name}!</h1>
+              <p class="text-gray-600 text-sm">Вы на пути к здоровой жизни</p>
+            </div>
+
+            <!-- Главная статистика -->
+            <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl shadow-2xl p-6 mb-4 text-white">
+              <div class="text-center mb-4">
+                <div class="text-6xl font-bold mb-2">${stats.days}</div>
+                <div class="text-lg opacity-90">${stats.days === 1 ? 'день' : stats.days < 5 ? 'дня' : 'дней'} без курения</div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 backdrop-blur">
+                  <div class="text-2xl font-bold">${stats.moneySaved}₽</div>
+                  <div class="text-xs opacity-90">Сэкономлено</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 backdrop-blur">
+                  <div class="text-2xl font-bold">${stats.cigarettesNotSmoked}</div>
+                  <div class="text-xs opacity-90">Не выкурено</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Здоровье -->
+            <div class="bg-white rounded-2xl shadow-lg p-5 mb-4">
+              <div class="flex items-center mb-3">
+                <div class="text-3xl mr-3">🫁</div>
+                <div>
+                  <div class="font-bold text-gray-800">${stats.healthImprovement.status}</div>
+                  <div class="text-sm text-gray-600">${stats.healthImprovement.description}</div>
+                </div>
+              </div>
+              
+              <div class="bg-blue-50 rounded-xl p-3 text-sm">
+                <div class="flex justify-between mb-1">
+                  <span class="text-gray-700">💪 Восстановление</span>
+                  <span class="font-semibold text-blue-600">${Math.min(100, Math.floor(stats.days / 3.65))}%</span>
+                </div>
+                <div class="w-full bg-blue-200 rounded-full h-2">
+                  <div class="bg-blue-600 h-2 rounded-full transition-all" style="width: ${Math.min(100, Math.floor(stats.days / 3.65))}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Советы -->
+            <div class="bg-white rounded-2xl shadow-lg p-5 mb-4">
+              <div class="flex items-center mb-3">
+                <div class="text-2xl mr-2">💡</div>
+                <div class="font-bold text-gray-800">Советы для вас</div>
+              </div>
+              
+              ${tips.map(t => `
+                <div class="bg-yellow-50 rounded-xl p-3 mb-2 text-sm text-gray-700">
+                  ${t.tip}
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Кнопка настроек -->
+            <button onclick="showSettings()" class="w-full bg-gray-100 text-gray-700 rounded-xl p-4 font-semibold card-hover mb-4">
+              ⚙️ Настроить профиль
+            </button>
+
+            <!-- Мотивация -->
+            <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-4 text-center">
+              <div class="text-lg font-semibold text-gray-800 mb-1">
+                Вы вернули себе ${stats.hoursOfLife} часов жизни! ⏰
+              </div>
+              <div class="text-sm text-gray-600">
+                Каждая сигарета отнимает 11 минут
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Делаем showSettings доступной глобально
+        window.showSettings = showSettings;
+
+      } else if (currentView === 'settings') {
+        root.innerHTML = `
+          <div class="min-h-screen p-6">
+            <div class="max-w-md mx-auto">
+              <div class="text-center mb-6">
+                <div class="text-4xl mb-3">⚙️</div>
+                <h2 class="text-2xl font-bold text-gray-800">Настройки профиля</h2>
+              </div>
+
+              <div class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Сколько дней без курения?
+                  </label>
+                  <input 
+                    id="input-days"
+                    type="number" 
+                    value="${userProfile.daysWithoutSmoking}"
+                    class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-green-500"
+                    placeholder="0"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Сколько сигарет курили в день?
+                  </label>
+                  <input 
+                    id="input-cigarettes"
+                    type="number" 
+                    value="${userProfile.cigarettesPerDay}"
+                    class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-green-500"
+                    placeholder="20"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Цена пачки (₽)
+                  </label>
+                  <input 
+                    id="input-price"
+                    type="number" 
+                    value="${userProfile.pricePerPack}"
+                    class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-green-500"
+                    placeholder="200"
+                  />
+                </div>
+
+                <button 
+                  id="save-settings-btn"
+                  class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl transition">
+                  Сохранить
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        setTimeout(() => {
+          document.getElementById('save-settings-btn').addEventListener('click', () => {
+            const days = document.getElementById('input-days').value;
+            const cigarettes = document.getElementById('input-cigarettes').value;
+            const price = document.getElementById('input-price').value;
+            saveSettings(days, cigarettes, price);
+          });
+        }, 0);
+
+      } else if (currentView === 'searching') {
+        root.innerHTML = `
+          <div class="min-h-screen flex flex-col items-center justify-center p-6">
+            <div class="text-6xl mb-6 animate-pulse">👥</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Ищем собеседника...</h2>
+            <p class="text-gray-600 text-center mb-6">Подбираем человека с похожим опытом</p>
+            <div class="flex space-x-2 mb-8">
+              <div class="w-3 h-3 bg-green-500 rounded-full animate-bounce"></div>
+              <div class="w-3 h-3 bg-green-500 rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
+              <div class="w-3 h-3 bg-green-500 rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
+            </div>
+            
+            <div class="text-sm text-gray-500 text-center max-w-xs">
+              💡 Если поиск затянулся, попробуйте позже или пригласите друга в бот
+            </div>
+          </div>
+        `;
+      } else if (currentView === 'chat') {
+        const messagesHtml = messages.map((msg) => {
+          if (msg.type === 'system') {
+            return `
+              <div class="text-center mb-4">
+                <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">
+                  ${msg.text}
+                </span>
+              </div>
+            `;
+          } else if (msg.type === 'user') {
+            return `
+              <div class="flex justify-end mb-3 message-enter">
+                <div class="bg-green-500 text-white rounded-2xl rounded-tr-sm px-4 py-2 max-w-xs">
+                  <p>${msg.text}</p>
+                  <p class="text-xs text-green-100 mt-1">${msg.time}</p>
+                </div>
+              </div>
+            `;
+          } else if (msg.type === 'partner') {
+            return `
+              <div class="flex justify-start mb-3 message-enter">
+                <div class="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-2 max-w-xs shadow">
+                  <p class="text-gray-800">${msg.text}</p>
+                  <p class="text-xs text-gray-500 mt-1">${msg.time}</p>
+                </div>
+              </div>
+            `;
+          }
+        }).join('');
+
+        const typingIndicator = isTyping ? `
+          <div class="flex justify-start mb-3">
+            <div class="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-2 shadow">
+              <div class="flex space-x-1">
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
+              </div>
+            </div>
+          </div>
+        ` : '';
+
+        root.innerHTML = `
+          <div class="flex flex-col h-screen">
+            <div class="bg-green-500 text-white p-4 shadow-lg">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">
+                  👤
+                </div>
+                <div>
+                  <p class="font-semibold">${partner?.name || 'Собеседник'}</p>
+                  <p class="text-sm text-green-100">${partner?.days_without_smoking || 0} дней без курения</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="messages-container" class="flex-1 overflow-y-auto p-4" style="padding-bottom: 80px;">
+              ${messagesHtml}
+              ${typingIndicator}
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+              <div class="flex space-x-2">
+                <input 
+                  id="message-input"
+                  type="text" 
+                  value="${inputValue}"
+                  placeholder="Напишите сообщение..."
+                  class="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:border-green-500"
+                />
+                <button 
+                  id="send-button"
+                  class="bg-green-500 hover:bg-green-600 text-white rounded-full px-6 py-2 font-semibold transition ${!inputValue.trim() ? 'opacity-50' : ''}"
+                  ${!inputValue.trim() ? 'disabled' : ''}>
+                  ➤
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        setTimeout(() => {
+          const input = document.getElementById('message-input');
+          const sendBtn = document.getElementById('send-button');
+
+          if (input) {
+            input.focus();
+            input.addEventListener('input', (e) => {
+              inputValue = e.target.value;
+              render();
+              
+              if (socket && inputValue.trim()) {
+                socket.emit('typing');
+              }
+            });
+
+            input.addEventListener('keypress', (e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            });
+          }
+
+          if (sendBtn) {
+            sendBtn.addEventListener('click', sendMessage);
+          }
+
+          scrollToBottom();
+        }, 0);
+      }
+    }
+
+    // Инициализация
+    setupMainButton();
+    render();
+  </script>
 </body>
 </html>
